@@ -43,7 +43,11 @@ class AudiobookBlacksmith(AutoRepr):
             self._needs_encoding = False
 
         if not self._source_files:
-            raise FileNotFoundError(f"No MP3 or M4A files found in {self._source_path}")
+            self._source_files = utils.get_files(self._source_path, "m4b")
+            self._needs_encoding = False
+
+        if not self._source_files:
+            raise FileNotFoundError(f"No MP3/M4A/M4B files found in {self._source_path}")
 
         print("🔧 Try to fix source files if needed...")
         for _source_file in self._source_files:
@@ -94,7 +98,7 @@ class AudiobookBlacksmith(AutoRepr):
         avg_bitrate = min(int(total_bitrate / file_count), 192000)
         self._target_bitrate = f"{int(avg_bitrate / 1000)}k"
 
-        mode = "Encoding (MP3 -> AAC)" if self._needs_encoding else "Direct Link (M4A)"
+        mode = "Encoding (MP3 -> AAC)" if self._needs_encoding else "Direct Link (M4A/M4B)"
         print(
             f"🔍 Analyze: {file_count} files found. Mode: {mode}. Bitrate: {self._target_bitrate}"
         )

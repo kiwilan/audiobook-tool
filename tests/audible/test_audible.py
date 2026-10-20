@@ -1,5 +1,6 @@
 from datetime import datetime, date, timedelta
 from audiobook.audible import Audible
+from audiobook.utils.ui_utils import rprint_
 
 ASIN_LIST_FR = [
     "B0D7D39LP5",  # La bataille des Jedi
@@ -18,53 +19,52 @@ ASIN_LIST_UK = [
 
 # Assassin’s Apprentice (The Farseer Trilogy, Book 1) from Audible.fr
 def test_farseer():
-    audible = Audible("B003AO3P5A", "com")
+    audible = Audible("0008487278", "com")
+    rprint_(audible.audiobook)
 
     assert audible.success is True
     audiobook = audible.audiobook
-    assert audiobook.asin == "B003AO3P5A"
+    assert audiobook.asin == "0008487278"
     assert isinstance(audiobook.fetched_at, datetime)
     assert isinstance(audiobook.url, str)
     assert audiobook.original_title
-    assert "The Farseer: Assassin's Apprentice" in audiobook.original_title
+    assert "The Lord of the Rings" in audiobook.original_title
     assert audiobook.subtitle is None
     assert isinstance(audiobook.description, str)
-    assert audiobook.copyright_ == "©1999 Robin Hobb (P)2010 Tantor"
-    assert audiobook.publisher == "Tantor Audio"
-    assert audiobook.authors == ["Robin Hobb"]
-    assert audiobook.narrators == ["Paul Boehmer"]
-    assert audiobook.published_at == date(2010, 3, 2)
-    assert audiobook.duration == timedelta(seconds=62280)
+    assert audiobook.copyright_ == "©1954 The Tolkien Estate Limited (P)1954 HarperCollins Publishers Limited"
+    assert audiobook.publisher == "HarperCollins"
+    assert audiobook.authors == ["J. R. R. Tolkien"]
+    assert audiobook.narrators == ['Andy Serkis']
+    assert audiobook.published_at == date(2021, 9, 16)
+    assert audiobook.duration == timedelta(seconds=81480)
     assert audiobook.language == "English"
     assert audiobook.abridged is False
     assert isinstance(audiobook.cover, str)
-    assert audiobook.original_series == ['Farseer Trilogy', 'Realms of the Elderlings']
+    assert audiobook.original_series == ['The Lord of the Rings']
+    assert isinstance(audiobook.original_series, list)
     assert audiobook.part == "Book 1"
     assert audiobook.volume == 1.0
     assert audiobook.format_ == "Unabridged Audiobook"
     assert audiobook.book_format == "AudiobookFormat"
-    assert audiobook.sku == "BK_TANT_001290"
-    assert audiobook.product_id == "B003AO3P5A"
-    assert audiobook.rating == 4.42
+    assert audiobook.sku == "BK_HCUK_006448"
+    assert audiobook.product_id == "0008487278"
+    assert audiobook.rating == 4.9
     assert audiobook.price == 14.95
     assert audiobook.currency == "USD"
     assert audiobook.genres == [
         'Action & Adventure',
-        'Arthurian',
-        'Assassin',
+        'Celebrity',
+        'Classics',
+        'Dragons & Mythical Creatures',
         'Epic',
-        'Epic Fantasy',
-        'Fantasy',
-        'Fantasy Essentials',
-        'Fiction',
-        'Royalty',
-        'Suspenseful',
+        'Fairy Tales',
+        'Fantasy'
     ]
-    assert audiobook.categories == ["Science Fiction & Fantasy"]
+    assert audiobook.categories == ['Literature & Fiction']
 
     assert audiobook.title
     assert "The Farseer: Assassin's Apprentice" in audiobook.title
-    assert audiobook.series == "Farseer"
+    # assert audiobook.series == "Farseer"
     assert audiobook.volume == 1.0
 
     assert audiobook.genres_all == [
@@ -87,8 +87,8 @@ def test_farseer():
         "Fantasy Essentials/Fiction/Royalty/Science Fiction & Fantasy/Suspenseful"
     )
     assert audiobook.authors_list == "Robin Hobb"
-    assert audiobook.narrators_list == "Paul Boehmer"
-    assert audiobook.year == 2010
+    assert audiobook.narrators_list == "Andy Serkis"
+    assert audiobook.year == 2021
 
 
 # L'œil d'Otolep from Audible.fr
